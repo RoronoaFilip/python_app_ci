@@ -1,0 +1,37 @@
+name: markdown
+
+on: workflow_call
+
+jobs:
+  flake8-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2
+
+  editorconfig:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: editorconfig-checker/action-editorconfig-checker@main
+      - run: editorconfig-checker
+
+  markdown:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Lint Markdown files
+        uses: davidanson/markdownlint-cli2-action@v3
