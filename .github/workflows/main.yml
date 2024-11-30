@@ -33,7 +33,6 @@ jobs:
 
       - name: Lint Markdown files
         uses: davidanson/markdownlint-cli2-action@v3
-
   test:
     needs: [ flake8-lint, editorconfig, markdown ]
     runs-on: ubuntu-latest
@@ -52,3 +51,16 @@ jobs:
 
       - name: Run tests
         run: python -m unittest src/app_test.py
+
+  sonar-cloud:
+    needs: [ flake8-lint, editorconfig, markdown ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
